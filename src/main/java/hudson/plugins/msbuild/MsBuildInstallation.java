@@ -44,26 +44,30 @@ import java.io.IOException;
 public final class MsBuildInstallation extends ToolInstallation implements NodeSpecific<MsBuildInstallation>, EnvironmentSpecific<MsBuildInstallation> {
 
     private final String defaultArgs;
+    private final String enforceVsVer;
 
     @DataBoundConstructor
-    public MsBuildInstallation(String name, String home, String defaultArgs) {
+    public MsBuildInstallation(String name, String home, String defaultArgs, String enforceVsVer) {
         super(name, home, null);
+        this.enforceVsVer = Util.fixEmpty(enforceVsVer);
         this.defaultArgs = Util.fixEmpty(defaultArgs);
     }
 
     @Override
     public MsBuildInstallation forNode(Node node, TaskListener log) throws IOException, InterruptedException {
-        return new MsBuildInstallation(getName(), translateFor(node, log), getDefaultArgs());
+        return new MsBuildInstallation(getName(), translateFor(node, log), getDefaultArgs(), getEnforceVsVer());
     }
 
     @Override
     public MsBuildInstallation forEnvironment(EnvVars environment) {
-        return new MsBuildInstallation(getName(), environment.expand(getHome()), getDefaultArgs());
+        return new MsBuildInstallation(getName(), environment.expand(getHome()), getDefaultArgs(), getEnforceVsVer());
     }
 
     public String getDefaultArgs() {
         return this.defaultArgs;
     }
+
+    public String getEnforceVsVer() {return this.enforceVsVer; }
 
     @Extension @Symbol("msbuild")
     public static class DescriptorImpl extends ToolDescriptor<MsBuildInstallation> {

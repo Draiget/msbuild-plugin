@@ -30,7 +30,8 @@ public class MSBuildErrorNote extends ConsoleNote {
 
         @Override
         public String getDisplayName() {
-            return Messages.MsBuildBuilder_ErrorNoteDescription();
+            return "MSBuild error";
+            //return Messages.MsBuildBuilder_ErrorNoteDescription();
         }
     }
 }

@@ -207,8 +207,16 @@ public class MsBuildBuilder extends Builder {
                     args.prepend("chcp", String.valueOf(cpi), "&");
                 }
             }
-            
-            args.prepend("cmd.exe", "/C", "\"");
+
+            // Enforce VS version for able to use "Enterprise WDK"
+            if (ai.getEnforceVsVer() != null) {
+                String ver = ai.getEnforceVsVer();
+                listener.getLogger().println("Enforcing visual studio version variable to: " + ver);
+                args.prepend("cmd.exe", "/C", "\"", "set", String.format("\"VisualStudioVersion=%s\"", ver), "&&");
+            } else {
+                args.prepend("cmd.exe", "/C", "\"");
+            }
+
             args.add("\"", "&&", "exit", "%%ERRORLEVEL%%");
         }
         else {
@@ -313,7 +321,8 @@ public class MsBuildBuilder extends Builder {
 
         @Override
         public String getDisplayName() {
-            return Messages.MsBuildBuilder_DisplayName();
+            return "Build a Visual Studio project or solution using MSBuild";
+            //return Messages.MsBuildBuilder_DisplayName();
         }
 
         @Override

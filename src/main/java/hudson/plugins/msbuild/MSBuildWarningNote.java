@@ -2,6 +2,7 @@ package hudson.plugins.msbuild;
 
 import hudson.Extension;
 import hudson.MarkupText;
+import hudson.Messages;
 import hudson.console.ConsoleAnnotationDescriptor;
 import hudson.console.ConsoleAnnotator;
 import hudson.console.ConsoleNote;
@@ -30,7 +31,8 @@ public class MSBuildWarningNote extends ConsoleNote {
 
         @Override
         public String getDisplayName() {
-            return Messages.MsBuildBuilder_WarningNoteDescription();
+            return "MSBuild warning";
+            //return Messages.MsBuildBuilder_WarningNoteDescription();
         }
     }
 }
